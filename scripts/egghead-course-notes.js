@@ -1,7 +1,7 @@
 /** @type typeof import("octokit") */
 let { Octokit } = await npm("@octokit/rest");
 let eggheadUserToken = await env("EGGHEAD_AUTH_TOKEN");
-let { queryEggheadCourse } = await lib("egghead");
+let { queryEggheadCourse, queryEggheadCourseUnauthed } = await lib("egghead");
 
 let octokit = new Octokit();
 export let getCourseNotesContentByPath = async (path) => {
@@ -73,11 +73,14 @@ let publishNotes = async () => {
 
   if (answer === true) {
     let courseSlug = await arg("Enter the course slug: ", [course]);
-
-    let {
-      course: { resources: lessons },
-    } = await queryEggheadCourse(courseSlug);
+    console.log(courseSlug);
+    let { items: lessons } = await queryEggheadCourseUnauthed(
+      `https://app.egghead.io/api/v1/playlists/${courseSlug}`
+    );
     let eggheadLessonSlugs = lessons.map((lesson) => lesson.slug);
+
+    console.log(eggheadLessonSlugs);
+
     notesContent.map(async (note) => {
       let noteName = note.name
         .replace(/(^[0-9]+[-_])/g, "")
@@ -106,8 +109,6 @@ let publishSingleNote = async () => {
 
   let cdn = createCdnLink(fileName);
   let lessonUrl = `https://app.egghead.io/api/v1/lessons/${lessonSlug}`;
-
-  console.log({ cdn, lessonUrl, lessonSlug });
   postNote(lessonUrl, cdn);
 };
 

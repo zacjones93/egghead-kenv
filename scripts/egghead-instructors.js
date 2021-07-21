@@ -1,4 +1,4 @@
-let { request, gql } = await npm("graphql-request")
+let { request, gql } = await npm("graphql-request");
 
 const query = gql`
   {
@@ -7,20 +7,15 @@ const query = gql`
       slug
     }
   }
-`
+`;
 
 let slug = await arg("Select an instructor:", async () => {
-  let response = await request(
-    "https://app.egghead.io/graphql",
-    query
-  )
+  let response = await request("https://app.egghead.io/graphql", query);
 
-  return response.instructors.map(
-    ({ full_name, slug }) => ({
-      name: full_name,
-      value: slug,
-    })
-  )
-})
+  return response.instructors.map(({ full_name, slug }) => ({
+    name: full_name,
+    value: slug,
+  }));
+});
 
-console.log(slug)
+console.log(slug);

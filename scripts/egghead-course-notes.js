@@ -24,10 +24,6 @@ let { name: course } = await arg(
 //! Loads individual course notes
 //! expects notes to be in a `/notes` subfolder!
 let notesContent = await getCourseNotesContentByPath(`${course}/notes`);
-let {
-  course: { resources: lessons },
-} = await queryEggheadCourse(course);
-let eggheadLessonSlugs = lessons.map((lesson) => lesson.slug);
 
 let getCourseNotesFolder = async () => {
   await run(kenvPath("kenvs", "egghead", "scripts", "egghead-course-notes.js"));
@@ -35,7 +31,7 @@ let getCourseNotesFolder = async () => {
 
 let getNote = async () => {
   let { name: fileName } = await arg(
-    "Select file",
+    "Select a Note to view:",
     notesContent.filter((d) => d.type === "file" && d.name.endsWith(".md"))
   );
 
@@ -53,11 +49,11 @@ let viewNote = async () => {
 let createCdnLink = (slug) =>
   `https://cdn.jsdelivr.net/gh/eggheadio/eggheadio-course-notes/${course}/notes/${slug}`;
 
-let postNote = (url, note) => {
+let postNote = (url, noteCdn) => {
   put(
     url,
     {
-      staff_notes_url: note,
+      staff_notes_url: noteCdn,
     },
     {
       headers: {
@@ -76,11 +72,16 @@ let publishNotes = async () => {
   ]);
 
   if (answer === true) {
+    let courseSlug = await arg("Enter the course slug: ", [course]);
+
+    let {
+      course: { resources: lessons },
+    } = await queryEggheadCourse(courseSlug);
+    let eggheadLessonSlugs = lessons.map((lesson) => lesson.slug);
     notesContent.map(async (note) => {
       let noteName = note.name
-        .replace(/(^[0-9]+-)/g, "")
+        .replace(/(^[0-9]+[-_])/g, "")
         .replace(/(\.md)/g, "");
-
       if (eggheadLessonSlugs.includes(noteName)) {
         let cdn = createCdnLink(note.name);
         let lessonUrl = `https://app.egghead.io/api/v1/lessons/${noteName}`;
@@ -93,6 +94,24 @@ let publishNotes = async () => {
   }
 };
 
+let publishSingleNote = async () => {
+  let { name: fileName } = await arg(
+    "Select a note to publish:",
+    notesContent.filter((d) => d.type === "file" && d.name.endsWith(".md"))
+  );
+
+  let lessonSlug = fileName
+    .replace(/(^[0-9]+[-_])/g, "")
+    .replace(/(\.md)/g, "");
+
+  let cdn = createCdnLink(fileName);
+  let lessonUrl = `https://app.egghead.io/api/v1/lessons/${lessonSlug}`;
+
+  console.log({ cdn, lessonUrl, lessonSlug });
+  postNote(lessonUrl, cdn);
+};
+
 onTab("View Note", viewNote);
-onTab("Publish Notes", publishNotes);
+onTab("Publish a Single Note", publishSingleNote);
+onTab("Publish All Notes", publishNotes);
 onTab("Select New Course", getCourseNotesFolder);

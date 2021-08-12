@@ -1,7 +1,7 @@
 /** @type typeof import("octokit") */
 let { Octokit } = await npm("@octokit/rest");
 let eggheadUserToken = await env("EGGHEAD_AUTH_TOKEN");
-let { queryEggheadCourse, queryEggheadCourseUnauthed } = await lib("egghead");
+let { queryEggheadCourse } = await lib("egghead");
 
 let octokit = new Octokit();
 export let getCourseNotesContentByPath = async (path) => {
@@ -49,8 +49,8 @@ let viewNote = async () => {
 let createCdnLink = (slug) =>
   `https://cdn.jsdelivr.net/gh/eggheadio/eggheadio-course-notes/${course}/notes/${slug}`;
 
-let postNote = (url, noteCdn) => {
-  put(
+let postNote = async (url, noteCdn) => {
+  await put(
     url,
     {
       staff_notes_url: noteCdn,
@@ -73,13 +73,11 @@ let publishNotes = async () => {
 
   if (answer === true) {
     let courseSlug = await arg("Enter the course slug: ", [course]);
-    console.log(courseSlug);
-    let { items: lessons } = await queryEggheadCourseUnauthed(
-      `https://app.egghead.io/api/v1/playlists/${courseSlug}`
-    );
-    let eggheadLessonSlugs = lessons.map((lesson) => lesson.slug);
 
-    console.log(eggheadLessonSlugs);
+    let {
+      course: { resources: lessons },
+    } = await queryEggheadCourse(courseSlug);
+    let eggheadLessonSlugs = lessons.map((lesson) => lesson.slug);
 
     notesContent.map(async (note) => {
       let noteName = note.name
@@ -109,6 +107,7 @@ let publishSingleNote = async () => {
 
   let cdn = createCdnLink(fileName);
   let lessonUrl = `https://app.egghead.io/api/v1/lessons/${lessonSlug}`;
+
   postNote(lessonUrl, cdn);
 };
 

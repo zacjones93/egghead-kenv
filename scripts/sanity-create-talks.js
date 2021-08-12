@@ -19,13 +19,12 @@ let convertTalktoSanity = (talk) => {
     description,
     thumb_url,
     path,
-    instructor,
     slug,
-    instructor: { full_name },
+    instructor: { slug: instructor_slug, full_name },
     duration,
   } = talk;
 
-  let sanityInstructor = createSanityInstructorReference(instructor.slug);
+  let sanityInstructor = createSanityInstructorReference(instructor_slug);
 
   return {
     _key: nanoid(),
@@ -46,7 +45,8 @@ let convertTalktoSanity = (talk) => {
   };
 };
 
-let sanityTalk = convertTalktoSanity(eggheadTalk);
+let sanityTalk = convertTalktoSanity(eggheadTalk.talk);
+console.log(sanityTalk);
 
 try {
   await eggheadSanityClient.create(sanityTalk);

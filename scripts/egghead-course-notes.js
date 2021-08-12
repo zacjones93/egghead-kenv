@@ -1,3 +1,7 @@
+// Description: Publish TimeStamped notes to egghead
+// Author: Zac Jones
+// Twitter: @zacjones93
+
 /** @type typeof import("octokit") */
 let { Octokit } = await npm("@octokit/rest");
 let eggheadUserToken = await env("EGGHEAD_AUTH_TOKEN");
@@ -72,7 +76,13 @@ let publishNotes = async () => {
   ]);
 
   if (answer === true) {
-    let courseSlug = await arg("Enter the course slug: ", [course]);
+    let courseSlug = await arg(
+      {
+        placeholder: "Enter the course slug: ",
+        hint: "If the option down below doesn't match the current course slug, enter the current slug in the input field above",
+      },
+      [course]
+    );
 
     let {
       course: { resources: lessons },

@@ -61,19 +61,19 @@ let createCdnLink = (slug) =>
   `https://cdn.jsdelivr.net/gh/eggheadio/eggheadio-course-notes/${course}/notes/${slug}`;
 
 let postNote = async (url, noteCdn) => {
-  // await put(
-  //   url,
-  //   {
-  //     staff_notes_url: noteCdn,
-  //   },
-  //   {
-  //     headers: {
-  //       Authorization: `Bearer ${eggheadUserToken}`,
-  //     },
-  //   }
-  // )
-  //   .then((response) => console.log(response.status))
-  //   .catch((err) => console.log("ERROR", err));
+  await put(
+    url,
+    {
+      staff_notes_url: noteCdn,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${eggheadUserToken}`,
+      },
+    }
+  )
+    .then((response) => console.log(response.status))
+    .catch((err) => console.log("ERROR", err));
 };
 
 let publishNotes = async () => {

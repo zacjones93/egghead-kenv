@@ -65,19 +65,19 @@ let createCdnLink = (slug) =>
 
 
 let postNote = async (url, noteCdn) => {
-  // await put(
-  //   url,
-  //   {
-  //     staff_notes_url: noteCdn,
-  //   },
-  //   {
-  //     headers: {
-  //       Authorization: `Bearer ${eggheadUserToken}`,
-  //     },
-  //   }
-  // )
-  //   .then((response) => console.log("Notes Post Succeeded", response.status))
-  //   .catch((err) => console.log("POSTING A LONG ERROR MESSAGE", err));
+  await put(
+    url,
+    {
+      staff_notes_url: noteCdn,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${eggheadUserToken}`,
+      },
+    }
+  )
+    .then((response) => console.log("Notes Post Succeeded", response.status))
+    .catch((err) => console.log("POSTING A LONG ERROR MESSAGE", err));
 };
 
 let publishNotes = async () => {

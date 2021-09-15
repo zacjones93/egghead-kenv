@@ -25,9 +25,7 @@ export let getCourseNotesContentByPath = async (path) => {
 
 //! Loads course notes folders so you choose which notes to view
 let rootContent = await getCourseNotesContentByPath("");
-if (rootContent === null){
-  await getCourseNotesFolder()
-}
+
 let { name: course } = await arg(
   "Select path",
   rootContent.filter((d) => d.type === "dir")
@@ -62,22 +60,20 @@ let viewNote = async () => {
 let createCdnLink = (slug) =>
   `https://cdn.jsdelivr.net/gh/eggheadio/eggheadio-course-notes/${course}/notes/${slug}`;
 
-
-
 let postNote = async (url, noteCdn) => {
-  await put(
-    url,
-    {
-      staff_notes_url: noteCdn,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${eggheadUserToken}`,
-      },
-    }
-  )
-    .then((response) => console.log("Notes Post Succeeded", response.status))
-    .catch((err) => console.log("POSTING A LONG ERROR MESSAGE", err));
+  // await put(
+  //   url,
+  //   {
+  //     staff_notes_url: noteCdn,
+  //   },
+  //   {
+  //     headers: {
+  //       Authorization: `Bearer ${eggheadUserToken}`,
+  //     },
+  //   }
+  // )
+  //   .then((response) => console.log(response.status))
+  //   .catch((err) => console.log("ERROR", err));
 };
 
 let publishNotes = async () => {

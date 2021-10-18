@@ -33,7 +33,7 @@ let { name: course } = await arg(
 
 //! Loads individual course notes
 //! expects notes to be in a `/notes` subfolder!
-let notesContent = await getCourseNotesContentByPath(`${course}/notes`);
+let notesContent = await getCourseNotesContentByPath(`courses/${course}/notes`);
 
 let getCourseNotesFolder = async () => {
   await run(kenvPath("kenvs", "egghead", "scripts", "egghead-course-notes.js"));
@@ -47,7 +47,7 @@ let getNote = async () => {
   );
 
   let { content, encoding } = await getCourseNotesContentByPath(
-    `${course}/notes/${fileName}`
+    `courses/${course}/notes/${fileName}`
   );
 
   return Buffer.from(content, encoding).toString();
@@ -58,7 +58,7 @@ let viewNote = async () => {
 };
 
 let createCdnLink = (slug) =>
-  `https://cdn.jsdelivr.net/gh/eggheadio/eggheadio-course-notes/${course}/notes/${slug}`;
+  `https://cdn.jsdelivr.net/gh/eggheadio/eggheadio-course-notes/courses/${course}/notes/${slug}`;
 
 let postNote = async (url, noteCdn) => {
   await put(

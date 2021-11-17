@@ -8,14 +8,14 @@ export let getCourseNotesContentByPath = async (path) => {
   let { data } = await octokit.rest.repos.getContent({
     owner: "eggheadio",
     repo: "eggheadio-course-notes",
-    path,
+    path
   });
 
   return data;
 };
 
 //! Loads course notes folders so you choose which notes to view
-let rootContent = await getCourseNotesContentByPath("");
+let rootContent = await getCourseNotesContentByPath("courses");
 let { name: course } = await arg(
   "Select path",
   rootContent.filter((d) => d.type === "dir")
@@ -23,7 +23,7 @@ let { name: course } = await arg(
 
 //! Loads individual course notes
 //! expects notes to be in a `/notes` subfolder!
-let notesContent = await getCourseNotesContentByPath(`${course}/notes`);
+let notesContent = await getCourseNotesContentByPath(`courses/${course}/notes`);
 
 let getCourseNotesFolder = async () => {
   await run(kenvPath("kenvs", "egghead", "scripts", "egghead-course-notes.js"));
@@ -72,7 +72,7 @@ let publishNotes = async () => {
   ]);
 
   if (answer === true) {
-    let courseSlug = await arg("Enter the course slug: ", [course]);
+    let courseSlug = await arg("Enter the course slug: ");
     console.log(courseSlug);
     let { items: lessons } = await queryEggheadCourseUnauthed(
       `https://app.egghead.io/api/v1/playlists/${courseSlug}`

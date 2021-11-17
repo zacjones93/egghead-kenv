@@ -71,5 +71,10 @@ let graphQLtoSanityData = graphQlToSanity(railsData);
 try {
   await eggheadSanityClient.create(graphQLtoSanityData);
 } catch (err) {
-  console.log(err);
+  if(err.statusCode === 409) {
+    console.log(err.response.body.error.items[0].error.referenceID)
+    show("Collaborator " + err.response.body.error.items[0].error.referenceID + " does not exist.")
+  } else {
+    console.log(err);
+  }
 }

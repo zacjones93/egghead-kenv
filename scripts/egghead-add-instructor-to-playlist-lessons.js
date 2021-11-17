@@ -1,6 +1,7 @@
 /** @type {import("@johnlindquist/kit")} */
 // Author: Creeland Provinsal
 // Twitter: @CProvinsal
+// Description: Add a playlist's instructor to each lesson
 
 let axios = await npm("axios")
 const token = await env("EGGHEAD_AUTH_TOKEN")

@@ -25,7 +25,6 @@ export let getCourseNotesContentByPath = async (path) => {
 
 //! Loads course notes folders so you choose which notes to view
 let rootContent = await getCourseNotesContentByPath("courses");
-
 let { name: course } = await arg(
   "Select path",
   rootContent.filter((d) => d.type === "dir")

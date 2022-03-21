@@ -81,7 +81,7 @@ if (response.error) {
             Authorization: `Bearer ${eggheadUserToken}`,
           },
         }
-      ).then(() => console.log("✅ success"));
+      ).then(() => console.log(`✅ success - ${deployLessonCode.title}`));
     }
   }
 }

@@ -1,6 +1,6 @@
 /** @type {import("@johnlindquist/kit")} */
 
-import Discord, { Client, Intents } from 'discord.js'
+let { Client, Intents } = await npm("discord.js")
 
 let token = await env('BOT_TOKEN')
 

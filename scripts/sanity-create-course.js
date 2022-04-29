@@ -108,6 +108,8 @@ function graphQlToSanity(railsData) {
 let graphQLtoSanityData = graphQlToSanity(railsData);
 //console.log(graphQLtoSanityData);
 
+
+
 try {
   await eggheadSanityClient.create(graphQLtoSanityData);
 } catch (err) {

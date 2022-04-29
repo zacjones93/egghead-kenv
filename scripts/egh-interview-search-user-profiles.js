@@ -1,4 +1,5 @@
-// Name: cio-search-email
+// Name: Learner Interview Search User Profiles
+// Author: Zac Jones
 
 import "@johnlindquist/kit"
 

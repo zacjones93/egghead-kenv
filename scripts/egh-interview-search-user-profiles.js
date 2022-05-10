@@ -25,3 +25,7 @@ onTab('All', async () => {
     exec(`open '${githubEmailUrl}'`)
     exec(`open '${cioEmailUrl}'`)
 })
+onTab('CIO ID', async () => {
+    let cioId = await arg("Enter CIO_ID: ")
+    exec(`open 'https://fly.customer.io/env/97673/people/${cioId}'`)
+})

@@ -1,5 +1,6 @@
 let { nanoid } = await npm("nanoid");
 let { GraphQLClient, gql } = await npm("graphql-request");
+
 const sanityClient = await npm("@sanity/client");
 
 let eggheadUserToken = await env("EGGHEAD_AUTH_TOKEN");
@@ -8,7 +9,7 @@ let key = await env("SANITY_READ_WRITE_KEY");
 export const eggheadAuthHeaders = {
   Authorization: `Bearer ${eggheadUserToken}`,
 };
-
+``
 const courseQuery = gql`
   query getCourse($slug: String!) {
     course: playlist(slug: $slug) {

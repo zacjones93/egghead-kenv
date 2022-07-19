@@ -1,6 +1,34 @@
 // Shortcut: control+i
-
+const sanityClient = await npm("@sanity/client");
 let { paramCase } = await npm("text-case");
+let { GraphQLClient, gql } = await npm("graphql-request");
+
+const instructorQuery = gql`
+  query getInstructor($slug: String!) {
+    instructor(slug: $slug) {
+      id
+      full_name
+      slug
+      bio_short
+      twitter
+      website
+      avatar_url
+      playlists {
+        id
+        title
+        description
+        slug
+        path
+        lessons {
+          id
+          title
+          slug
+        }
+      }
+    }
+  }
+`;
+
 
 let key = await env("SANITY_READ_WRITE_KEY");
 const eggheadSanityClient = sanityClient({
@@ -31,7 +59,7 @@ function queryEggheadInstructor(slug) {
 }
 
 let sanityPersonToInstructorCollaborator = (railsInstructor) => {
-  let { slug } = railsInstructor.instructor;
+  let { slug, id } = railsInstructor.instructor;
 
   return {
     _id: `collaborator-instructor-${slug}`,
@@ -43,6 +71,7 @@ let sanityPersonToInstructorCollaborator = (railsInstructor) => {
     },
     role: "instructor",
     title: "instructor",
+    eggheadInstructorId: id
   };
 };
 

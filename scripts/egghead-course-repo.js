@@ -7,7 +7,10 @@ let eggheadUserToken = await env("EGGHEAD_AUTH_TOKEN");
 
 let lessons = [];
 
-let courseSlug = await arg("Enter course slug: ");
+let courseSlug = await arg({
+  placeholder: "Enter course slug: ", 
+  ignoreBlur: true
+});
 
 let response = await fetch(
   `https://app.egghead.io/api/v1/playlists/${courseSlug}/items?flatten=true`
@@ -39,8 +42,7 @@ if (response.error) {
 
     <button type="submit" class="mx-auto bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit</button>
   </div>
-  `
-  );
+  `);
 
   console.log(formData);
 

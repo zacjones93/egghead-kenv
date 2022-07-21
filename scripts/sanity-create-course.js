@@ -97,6 +97,7 @@ function graphQlToSanity(railsData) {
     type: "course",
     externalType: "playlist",
     externalId: id,
+    productionProcessState: 'new',
     path,
     title,
     description,

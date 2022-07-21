@@ -71,7 +71,7 @@ let sanityPersonToInstructorCollaborator = (railsInstructor) => {
     },
     role: "instructor",
     title: "instructor",
-    eggheadInstructorId: id
+    eggheadInstructorId: `${id}`
   };
 };
 

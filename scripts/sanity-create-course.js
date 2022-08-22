@@ -81,6 +81,7 @@ function graphQlToSanity(railsData) {
       _type: "resource",
       type: "video",
       externalType: "lesson",
+      productionProcessState: 'published',
       path,
       title,
       externalId: id,

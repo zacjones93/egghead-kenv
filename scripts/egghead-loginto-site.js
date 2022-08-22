@@ -6,7 +6,10 @@ let { siteChoices, siteData, eggheadAuthHeaders } = await lib("egghead");
 const site = await arg("Which site do you want to log into?", siteChoices);
 const siteUrl = site.httpUrl;
 const siteName = site.siteName;
-const email = await arg("Whats the email of the user you want to view as?");
+const email = await arg({
+  placeholder: "Whats the email of the user you want to view as?",
+  ignoreBlur: true
+});
 //const email = "zac@egghead.io";
 
 const userData = await get("https://app.egghead.io/api/v1/users/search", {

@@ -1,3 +1,8 @@
+// Name: Create Sanity Course Resource
+// Author: Zac Jones
+
+import "@johnlindquist/kit"
+
 let { nanoid } = await npm("nanoid");
 let { GraphQLClient, gql } = await npm("graphql-request");
 
@@ -112,9 +117,12 @@ let graphQLtoSanityData = graphQlToSanity(railsData);
 //console.log(graphQLtoSanityData);
 
 
-
+let sanityBaseUrl = "https://egghead-next.sanity.studio/desk/resource"
 try {
-  await eggheadSanityClient.create(graphQLtoSanityData);
+  let { _id } = await eggheadSanityClient.create(graphQLtoSanityData);
+
+  browse(`${sanityBaseUrl};${_id}`)
+
 } catch (err) {
   if(err.statusCode === 409) {
     console.log(err.response.body.error.items[0].error.referenceID)

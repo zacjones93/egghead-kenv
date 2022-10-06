@@ -58,7 +58,6 @@ let convertTagToSanity = (railsTag) => {
   return {
     "_id": `software-library-${name}`,
     "_type": "software-library",
-    "_updatedAt": "2022-09-24T00:54:35Z",
     "description": description,
     "image": {
       "_type": "image-url",

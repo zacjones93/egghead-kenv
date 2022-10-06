@@ -67,6 +67,10 @@ const courseID = await arg("Enter Course slug: ");
 
 let railsData = await queryEggheadCourse(courseID);
 
+function convertPlaylistPathToCourse(path) {
+  return path.split('/').map((v) => v === 'playlists' ? 'courses' : v).join('/')
+}
+
 function graphQlToSanity(railsData) {
   let { id, title, description, image, path, resources, instructor } =
     railsData.course;
@@ -87,7 +91,7 @@ function graphQlToSanity(railsData) {
       type: "video",
       externalType: "lesson",
       productionProcessState: 'published',
-      path,
+      path: convertPlaylistPathToCourse(path),
       title,
       externalId: id,
       description,
@@ -114,20 +118,20 @@ function graphQlToSanity(railsData) {
 }
 
 let graphQLtoSanityData = graphQlToSanity(railsData);
-//console.log(graphQLtoSanityData);
+dev(graphQLtoSanityData);
 
 
 let sanityBaseUrl = "https://egghead-next.sanity.studio/desk/resource"
-try {
-  let { _id } = await eggheadSanityClient.create(graphQLtoSanityData);
+// try {
+//   let { _id } = await eggheadSanityClient.create(graphQLtoSanityData);
 
-  browse(`${sanityBaseUrl};${_id}`)
+//   browse(`${sanityBaseUrl};${_id}`)
 
-} catch (err) {
-  if(err.statusCode === 409) {
-    console.log(err.response.body.error.items[0].error.referenceID)
-    widget("Collaborator " + err.response.body.error.items[0].error.referenceID + " does not exist.")
-  } else {
-    console.log(err);
-  }
-}
+// } catch (err) {
+//   if(err.statusCode === 409) {
+//     console.log(err.response.body.error.items[0].error.referenceID)
+//     widget("Collaborator " + err.response.body.error.items[0].error.referenceID + " does not exist.")
+//   } else {
+//     console.log(err);
+//   }
+// }

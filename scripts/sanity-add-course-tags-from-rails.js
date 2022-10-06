@@ -8,7 +8,7 @@ let { GraphQLClient, gql } = await npm("graphql-request");
 
 /*
 
-! Set up clients
+## Set up clients
 
 */
 
@@ -37,6 +37,12 @@ const eggheadGraphQLClient = new GraphQLClient(
   }
 );
 
+/*
+
+## Query Rails
+
+*/
+
 const playlistQuery = gql`
   query getPlaylist($slug: String!) {
     playlist: playlist(slug: $slug) {
@@ -59,6 +65,12 @@ let courseSlug = await arg({
   placeholder: "Enter course slug: ", 
 })
 let { playlist } = await queryEggheadForPlaylist(courseSlug)
+
+/*
+
+## Convert to Sanity Format
+
+*/
 
 let createSanityTags = (c) => {
   return c.tags.map((tag) => {
@@ -91,14 +103,16 @@ let courseQuery = groq`*[_type == 'resource' && externalId == ${playlist.externa
 }`;
 
 
-
-
-
 let sanityTags = createSanityTags(playlist)
 let sanityCourse = await eggheadSanityClient.fetch(courseQuery);
 
 console.log({sanityCourse, sanityTags})
 
+/*
+
+## Post to Sanity
+
+*/
 try {
 
   await eggheadSanityClient

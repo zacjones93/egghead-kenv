@@ -77,10 +77,10 @@ let convertTagToSanity = (railsTag) => {
 
 let sanityTag = convertTagToSanity(tagFromRails)
 
-// try {
-//   await eggheadSanityClient.create(sanityTag)
-//   console.log(`✅ Sanity TagCreated`);
+try {
+  await eggheadSanityClient.create(sanityTag)
+  console.log(`✅ Sanity TagCreated`);
 
-// } catch (e) {
-//   console.log(err);
-// }
+} catch (e) {
+  console.log(err);
+}

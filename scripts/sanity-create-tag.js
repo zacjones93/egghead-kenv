@@ -37,6 +37,10 @@ const tagQuery = gql`
   }
 `;
 
+let tag = get("https://app.egghead.io/api/v1/tags/node")
+
+console.log(tag)
+
 async function queryEggheadTag(slug) {
   return await eggheadGraphQLClient.request(tagQuery, {
     slug,
@@ -76,10 +80,10 @@ let convertTagToSanity = (railsTag) => {
 
 let sanityTag = convertTagToSanity(tagFromRails)
 
-try {
-  await eggheadSanityClient.create(sanityTag)
-  console.log(`✅ Sanity TagCreated`);
+// try {
+//   await eggheadSanityClient.create(sanityTag)
+//   console.log(`✅ Sanity TagCreated`);
 
-} catch (e) {
-  console.log(err);
-}
+// } catch (e) {
+//   console.log(err);
+// }

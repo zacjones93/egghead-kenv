@@ -122,16 +122,16 @@ dev(graphQLtoSanityData);
 
 
 let sanityBaseUrl = "https://egghead-next.sanity.studio/desk/resource"
-// try {
-//   let { _id } = await eggheadSanityClient.create(graphQLtoSanityData);
+try {
+  let { _id } = await eggheadSanityClient.create(graphQLtoSanityData);
 
-//   browse(`${sanityBaseUrl};${_id}`)
+  browse(`${sanityBaseUrl};${_id}`)
 
-// } catch (err) {
-//   if(err.statusCode === 409) {
-//     console.log(err.response.body.error.items[0].error.referenceID)
-//     widget("Collaborator " + err.response.body.error.items[0].error.referenceID + " does not exist.")
-//   } else {
-//     console.log(err);
-//   }
-// }
+} catch (err) {
+  if(err.statusCode === 409) {
+    console.log(err.response.body.error.items[0].error.referenceID)
+    widget("Collaborator " + err.response.body.error.items[0].error.referenceID + " does not exist.")
+  } else {
+    console.log(err);
+  }
+}

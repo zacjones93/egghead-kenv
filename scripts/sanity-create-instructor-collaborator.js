@@ -1,4 +1,3 @@
-// Shortcut: control+i
 const sanityClient = await npm("@sanity/client");
 let { paramCase } = await npm("text-case");
 let { GraphQLClient, gql } = await npm("graphql-request");
